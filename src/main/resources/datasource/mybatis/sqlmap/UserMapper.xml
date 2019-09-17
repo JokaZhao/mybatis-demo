@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joka.mybatis.dao.UserDao">
+    
+    <resultMap id="BaseResultMap" type="com.joka.common.UserDTO">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+        <result column="user_type" jdbcType="VARCHAR" property="userType" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+    </resultMap>
+    
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from user;
+    </select>
+</mapper>
