@@ -1,7 +1,7 @@
-package com.joka.mybatis;
+package com.joka.batisdemo.mybatis;
 
-import com.joka.common.UserDTO;
-import com.joka.mybatis.dao.UserDao;
+import com.joka.batisdemo.common.dto.UserDTO;
+import com.joka.batisdemo.mybatis.dao.UserDao;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

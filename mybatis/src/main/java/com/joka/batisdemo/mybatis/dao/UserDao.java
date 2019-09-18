@@ -1,6 +1,7 @@
-package com.joka.mybatis.dao;
+package com.joka.batisdemo.mybatis.dao;
 
-import com.joka.common.UserDTO;
+
+import com.joka.batisdemo.common.dto.UserDTO;
 
 import java.util.List;
 

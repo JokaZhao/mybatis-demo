@@ -1,4 +1,4 @@
-package com.joka.common;
+package com.joka.batisdemo.common.dto;
 
 import lombok.Data;
 
