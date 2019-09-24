@@ -16,10 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created on 2019/9/17 19:16.
@@ -40,15 +37,16 @@ public class MyBatisStater {
         try {
             init();
 
-//            selectAll();
-//
-//            selectOne();
-//
-//            selectByParam();
+            selectAll();
+
+            selectOne();
+
+            selectByParam();
             insertOne();
+            selectIn();
 
         } finally {
-            sqlSession.ifPresent(SqlSession::close);
+
         }
     }
 
@@ -59,56 +57,73 @@ public class MyBatisStater {
         sqlSession = Optional.of(sqlSessionFactory.openSession());
     }
 
-    public static void selectAll(){
+    public static void selectAll() {
         sqlSession.ifPresent(r -> {
             final UserDao mapper = r.getMapper(UserDao.class);
             List<UserDTO> userDTOS = mapper.selectAll();
-            System.out.println(StringFormatter.format("selectAll : %d",JSONObject.toJSONString(userDTOS)));
+            System.out.println(StringFormatter.format("selectAll : %s", JSONObject.toJSONString(userDTOS)));
 
         });
     }
 
-    public static void selectOne(){
+    public static void selectOne() {
         sqlSession.ifPresent(r -> {
             UserDao mapper = r.getMapper(UserDao.class);
             UserDTO userDTO = mapper.selectById(10000L);
-            System.out.println(StringFormatter.format("selectOne : %d",JSONObject.toJSONString(userDTO)));
+            System.out.println(StringFormatter.format("selectOne : %s", JSONObject.toJSONString(userDTO)));
         });
     }
 
-    public static void selectByParam(){
+    public static void selectByParam() {
         sqlSession.ifPresent(r -> {
             UserDao mapper = r.getMapper(UserDao.class);
-            Map<String,Object> param = new HashMap<>();
-            param.put("user_name","张三");
+            Map<String, Object> param = new HashMap<>();
+            param.put("user_name", "张三");
             List<UserDTO> userDTOS1 = mapper.selectByParam(param);
-            System.out.println(StringFormatter.format("selectByParam : %d",JSONObject.toJSONString(userDTOS1)));
+            System.out.println(StringFormatter.format("selectByParam : %s", JSONObject.toJSONString(userDTOS1)));
         });
     }
 
-    public static void selectIn(){
+    public static void selectIn() {
 
+        sqlSession.ifPresent(r -> {
 
+            UserDao mapper = r.getMapper(UserDao.class);
+            List<String> ids = Arrays.asList("18779880000", "440812199102169182");
+
+            List<UserDTO> dtoList = mapper.selectIn(ids);
+
+            dtoList.forEach(dto ->System.out.println(JSONObject.toJSONString(dto)));
+
+        });
 
     }
 
-    public static void insertOne(){
+    public static void insertOne() {
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserName(NameUtils.getName());
-        userDTO.setUserNo(IDCardNoUtils.getRandomID());
-        userDTO.setUserType("1");
-        userDTO.setStatus("1");
+        UserDTO userDTO = createUser();
 
         sqlSession.ifPresent(r -> {
             UserDao mapper = r.getMapper(UserDao.class);
             try {
                 mapper.insertOne(userDTO);
-
-            }catch (Exception e){
-                logger.error("",e);
+                r.commit();
+            } catch (Exception e) {
+                logger.error("", e);
             }
         });
+
+    }
+
+    private static UserDTO createUser() {
+
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserName(NameUtils.getName());
+        userDTO.setUserNo(IDCardNoUtils.getRandomID());
+        userDTO.setUserType(1);
+        userDTO.setStatus(1);
+
+        return userDTO;
 
     }
 

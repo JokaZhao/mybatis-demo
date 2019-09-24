@@ -13,8 +13,8 @@
         <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
         <result column="user_name" jdbcType="VARCHAR" property="userName" />
         <result column="user_no" jdbcType="VARCHAR" property="userNo" />
-        <result column="user_type" jdbcType="VARCHAR" property="userType" />
-        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="user_type" jdbcType="TINYINT" property="userType" />
+        <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
 
     <sql id="baseSQL">
@@ -52,7 +52,7 @@
 
     <select id="selectIn" parameterType="java.util.List" resultMap="BaseResultMap">
         select * from user where user_no in
-        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </select>
@@ -72,24 +72,47 @@
     </select>
 
     <insert id="insertOne" parameterType="com.joka.batisdemo.common.dto.UserDTO">
-        insert user (
-        <include refid="baseSQL" />
-        )
-        values (
-        #{userName},#{userNo},#{userType},#{status}
-        )
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userNo != null">
+                user_no,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userNo != null">
+                #{userNo,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+        </trim>
     </insert>
     
     <insert id="batchInsert" parameterType="java.util.List">
-        insert user (
+        insert into user (
         <include refid="baseSQL" />
         ) values
         <foreach collection="list" item="item" index="index" separator=",">
             (
             #{item.userName},
             #{item.userNo},
-            #{item.userType}
-            #{item.status}
+            #{item.userType,jdbcType=TINYINT}
+            #{item.status,jdbcType=TINYINT}
             )
         </foreach>
     </insert>

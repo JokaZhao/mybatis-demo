@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="30 second">
+<configuration debug="true" scan="true" scanPeriod="30 second">
 
     <property name="PROJECT" value="batis-demo" />
     <timestamp key="DATETIME" datePattern="yyyy-MM-dd HH:mm:ss" />

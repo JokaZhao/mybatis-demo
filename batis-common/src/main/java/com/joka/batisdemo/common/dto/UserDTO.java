@@ -17,8 +17,8 @@ public class UserDTO extends BaseDTO{
 
     private String userNo;
 
-    private String userType;
+    private Integer userType;
 
-    private String status;
+    private Integer status;
 
 }
