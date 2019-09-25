@@ -37,13 +37,21 @@ public class MyBatisStater {
         try {
             init();
 
-            selectAll();
+//            selectAll();
+//
+//            selectOne();
+//
+//            selectByParam();
+//
+//            selectByUserNameOrUserNo();
+//
+//            selectIn();
+//
+//            insertOne();
+//
+            batchInsert();
 
-            selectOne();
-
-            selectByParam();
-            insertOne();
-            selectIn();
+//            updateById();
 
         } finally {
 
@@ -99,6 +107,20 @@ public class MyBatisStater {
 
     }
 
+    public static void selectByUserNameOrUserNo() {
+
+        sqlSession.ifPresent(r -> {
+
+            UserDao mapper = r.getMapper(UserDao.class);
+
+            UserDTO userDTO = mapper.selectByUserNameOrUserNo("张三", "18779880000");
+
+            System.out.println(JSONObject.toJSONString(userDTO));
+
+        });
+
+    }
+
     public static void insertOne() {
 
         UserDTO userDTO = createUser();
@@ -107,6 +129,38 @@ public class MyBatisStater {
             UserDao mapper = r.getMapper(UserDao.class);
             try {
                 mapper.insertOne(userDTO);
+                r.commit();
+            } catch (Exception e) {
+                logger.error("", e);
+            }
+        });
+
+    }
+
+    public static void batchInsert() {
+
+        sqlSession.ifPresent(r -> {
+            UserDao mapper = r.getMapper(UserDao.class);
+            try {
+
+                List<UserDTO> userDTOS = Arrays.asList(createUser(), createUser(), createUser());
+                mapper.batchInsert(userDTOS);
+                r.commit();
+            } catch (Exception e) {
+                logger.error("", e);
+            }
+        });
+
+    }
+
+    public static void updateById() {
+
+        sqlSession.ifPresent(r -> {
+            UserDao mapper = r.getMapper(UserDao.class);
+            try {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setIsDeleted("Y");
+                mapper.updateById(userDTO,10000L);
                 r.commit();
             } catch (Exception e) {
                 logger.error("", e);

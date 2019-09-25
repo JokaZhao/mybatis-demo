@@ -111,7 +111,7 @@
             (
             #{item.userName},
             #{item.userNo},
-            #{item.userType,jdbcType=TINYINT}
+            #{item.userType,jdbcType=TINYINT},
             #{item.status,jdbcType=TINYINT}
             )
         </foreach>
@@ -132,8 +132,11 @@
             <if test="record.userType != null">
                 user_type = #{record.userType},
             </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted},
+            </if>
             gmt_modified = now(),
-            modifier = ifnull(#(record.modifier}, 'system'),
+            modifier = ifnull(#{record.modifier}, 'system')
         </set>
         where id = #{id}
     </update>

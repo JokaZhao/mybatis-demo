@@ -31,5 +31,4 @@ public interface UserDao {
 
     long updateById(@Param("record") UserDTO userDTO,@Param("id")Long id);
 
-
 }
