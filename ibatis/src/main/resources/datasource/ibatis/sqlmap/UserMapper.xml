@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "http://www.ibatis.com/dtd/sql-map-2.dtd">
+<sqlMap namespace="UserDao">
+
+    <resultMap id="BaseResultMap" class="com.joka.batisdemo.common.dto.UserDTO">
+        <result column="id" property="id"/>
+        <result column="creator" property="creator"/>
+        <result column="gmt_created" property="gmtCreated"/>
+        <result column="modifier" property="modifier"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_no" property="userNo"/>
+        <result column="user_type" property="userType"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="baseSQL">
+        user_name,user_no,user_type,status
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from user;
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterClass="java.lang.Long">
+        select * from user where id = #id#;
+    </select>
+
+    <select id="selectByParam" resultMap="BaseResultMap" parameterClass="java.util.Map">
+        select * from user
+        <dynamic prepend="where">
+            <isNotNull prepend="and" property="userName">
+                user_name = #userName#
+            </isNotNull>
+            <isNotNull prepend="and" property="userNo">
+                user_type = #userType#
+            </isNotNull>
+            <isNotNull prepend="and" property="userType">
+                user_type = #userType#
+            </isNotNull>
+            <isNotNull prepend="and" property="status">
+                status = #status#
+            </isNotNull>
+            <isNotNull prepend="and" property="isDeleted">
+                is_delete = #isDeleted#
+            </isNotNull>
+        </dynamic>
+    </select>
+
+    <select id="selectIn" parameterClass="java.util.List" resultMap="BaseResultMap">
+        select * from user
+        <dynamic prepend="where">
+            <iterate open="user_no in (" close=")" conjunction=",">
+                #list[]#
+            </iterate>
+        </dynamic>
+    </select>
+
+    <select id="selectByUserNameOrUserNo" parameterClass="java.util.Map" resultMap="BaseResultMap">
+        select * from user
+        <dynamic prepend="where">
+            <isNotNull property="userName">
+                user_name = #userName#
+            </isNotNull>
+            <isEmpty property="userName">
+                user_no = #userNo#
+            </isEmpty>
+        </dynamic>
+    </select>
+
+    <insert id="insertOne" parameterClass="com.joka.batisdemo.common.dto.UserDTO">
+        insert into user (
+            <include refid="baseSQL"/>
+        ) values (
+            #userName#,
+            #userNo#,
+            #userType#,
+            #status#
+        )
+    </insert>
+
+    <insert id="batchInsert" parameterClass="java.util.List">
+        insert into user (
+            <include refid="baseSQL"/>
+        ) values
+        <iterate conjunction=",">
+            (
+            #list[].userName#,
+            #list[].userNo#,
+            #list[].userType:TINYINT#,
+            #list[].status:TINYINT#
+            )
+        </iterate>
+    </insert>
+
+    <update id="updateById" parameterClass="java.util.Map">
+        update user
+        <dynamic prepend="set">
+            <isNotNull property="record.userName">
+                user_name = #record.userName#,
+            </isNotNull>
+            <isNotNull property="record.userNo">
+                user_no = #record.userNo#,
+            </isNotNull>
+            <isNotNull property="record.status">
+                status = #record.status#,
+            </isNotNull>
+            <isNotNull property="record.userType">
+                user_type = #record.userType#,
+            </isNotNull>
+            <isNotNull property="record.isDeleted">
+                is_deleted = #record.isDeleted#,
+            </isNotNull>
+            gmt_modified = now(),
+            modifier = ifnull(#record.modifier#, 'system')
+            where id = #record.id#
+        </dynamic>
+    </update>
+
+</sqlMap>

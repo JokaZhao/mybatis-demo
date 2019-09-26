@@ -5,8 +5,6 @@ import com.joka.batisdemo.common.dto.UserDTO;
 import com.joka.batisdemo.common.util.IDCardNoUtils;
 import com.joka.batisdemo.common.util.NameUtils;
 import com.joka.batisdemo.mybatis.dao.UserDao;
-import com.sun.javafx.binding.StringFormatter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -32,12 +30,23 @@ public class MyBatisStater {
 
     static Optional<SqlSession> sqlSession;
 
+    static {
+        String resource = "datasource/mybatis/mybatis-config.xml";
+        InputStream inputStream = null;
+        try {
+            inputStream = Resources.getResourceAsStream(resource);
+        } catch (IOException e) {
+            logger.error("",e);
+        }
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        sqlSession = Optional.of(sqlSessionFactory.openSession());
+    }
+
     public static void main(String[] args) throws IOException {
 
         try {
-            init();
 
-//            selectAll();
+            selectAll();
 //
 //            selectOne();
 //
@@ -49,7 +58,7 @@ public class MyBatisStater {
 //
 //            insertOne();
 //
-            batchInsert();
+//            batchInsert();
 
 //            updateById();
 
@@ -58,18 +67,12 @@ public class MyBatisStater {
         }
     }
 
-    public static void init() throws IOException {
-        String resource = "datasource/mybatis/mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        sqlSession = Optional.of(sqlSessionFactory.openSession());
-    }
 
     public static void selectAll() {
         sqlSession.ifPresent(r -> {
             final UserDao mapper = r.getMapper(UserDao.class);
             List<UserDTO> userDTOS = mapper.selectAll();
-            System.out.println(StringFormatter.format("selectAll : %s", JSONObject.toJSONString(userDTOS)));
+            logger.info(String.format("selectAll : %s", JSONObject.toJSONString(userDTOS)));
 
         });
     }
@@ -78,7 +81,7 @@ public class MyBatisStater {
         sqlSession.ifPresent(r -> {
             UserDao mapper = r.getMapper(UserDao.class);
             UserDTO userDTO = mapper.selectById(10000L);
-            System.out.println(StringFormatter.format("selectOne : %s", JSONObject.toJSONString(userDTO)));
+            logger.info(String.format("selectOne : %s", JSONObject.toJSONString(userDTO)).toString());
         });
     }
 
@@ -88,7 +91,7 @@ public class MyBatisStater {
             Map<String, Object> param = new HashMap<>();
             param.put("user_name", "张三");
             List<UserDTO> userDTOS1 = mapper.selectByParam(param);
-            System.out.println(StringFormatter.format("selectByParam : %s", JSONObject.toJSONString(userDTOS1)));
+            logger.info(String.format("selectByParam : %s", JSONObject.toJSONString(userDTOS1)).toString());
         });
     }
 
@@ -101,7 +104,7 @@ public class MyBatisStater {
 
             List<UserDTO> dtoList = mapper.selectIn(ids);
 
-            dtoList.forEach(dto ->System.out.println(JSONObject.toJSONString(dto)));
+            dtoList.forEach(dto ->logger.info(JSONObject.toJSONString(dto)));
 
         });
 
@@ -115,7 +118,7 @@ public class MyBatisStater {
 
             UserDTO userDTO = mapper.selectByUserNameOrUserNo("张三", "18779880000");
 
-            System.out.println(JSONObject.toJSONString(userDTO));
+            logger.info(JSONObject.toJSONString(userDTO));
 
         });
 

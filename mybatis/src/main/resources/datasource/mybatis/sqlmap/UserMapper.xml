@@ -44,8 +44,8 @@
             <if test="status!=null">
                 status = #{status}
             </if>
-            <if test="idDelete!=null">
-                is_delete = #{idDelete}
+            <if test="isDeleted!=null">
+                is_delete = #{isDeleted}
             </if>
         </where>
     </select>
