@@ -24,3 +24,33 @@
 ## 初始化数据 DML脚本
     INSERT INTO test.`user`(id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
     VALUES(10000, '张三', '18779880000', 1, 1, 'N', '2019-09-17 19:30:59.000', 'system', '2019-09-17 19:30:59.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10028, '陈功', '440812199102169182', 1, 1, 'N', '2019-09-24 19:48:43.000', 'system', '2019-09-26 16:07:46.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10029, '俞翔旭', '121814197308253173', 1, 1, 'N', '2019-09-24 19:55:58.000', 'system', '2019-09-24 19:55:58.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10030, '任有', '711017199709211756', 1, 1, 'N', '2019-09-25 18:04:19.000', 'system', '2019-09-25 18:04:19.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10031, '项盛', '531814199708101071', 1, 1, 'N', '2019-09-25 18:04:19.000', 'system', '2019-09-25 18:04:19.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10032, '安伊亚', '511705197109047858', 1, 1, 'N', '2019-09-25 18:04:19.000', 'system', '2019-09-25 18:04:19.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10033, '计宁', '361111197106205117', 1, 1, 'N', '2019-09-26 16:03:58.000', 'system', '2019-09-26 16:03:58.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10034, '沈玲', '431717198605104308', 1, 1, 'N', '2019-09-26 16:04:22.000', 'system', '2019-09-26 16:04:22.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10035, '尹平保', '461220199812139727', 1, 1, 'N', '2019-09-26 16:05:26.000', 'system', '2019-09-26 16:05:26.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10036, '水星', '431505199904205424', 1, 1, 'N', '2019-09-26 16:05:26.000', 'system', '2019-09-26 16:05:26.000', 'system');
+    INSERT INTO test.`user`
+    (id, user_name, user_no, user_type, status, is_deleted, gmt_created, creator, gmt_modified, modifier)
+    VALUES(10037, '黄奇', '811126197603074501', 1, 1, 'N', '2019-09-26 16:05:26.000', 'system', '2019-09-26 16:05:26.000', 'system');
