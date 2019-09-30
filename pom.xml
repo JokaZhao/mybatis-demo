@@ -12,6 +12,7 @@
     <modules>
         <module>batis-common</module>
         <module>mybatis</module>
+        <module>spring-boot-mybatis</module>
     </modules>
 
     <inceptionYear>2019</inceptionYear>
