@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joka.batis.myoss.dao.UserDao">
+    
+    <resultMap id="BaseResultMap" type="com.joka.batis.myoss.domin.UserDomin">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="gmt_created" jdbcType="TIMESTAMP" property="gmtCreated" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="is_deleted" jdbcType="CHAR" property="isDeleted" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_no" jdbcType="VARCHAR" property="userNo" />
+        <result column="user_type" jdbcType="TINYINT" property="userType" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+    </resultMap>
+
+    <sql id="baseSQL">
+        user_name,user_no,user_type,status
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from user;
+    </select>
+
+    <select id="selectIn" parameterType="java.util.List" resultMap="BaseResultMap">
+        select * from user where user_no in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectByUserNameOrUserNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from user
+        <where>
+            <choose>
+                <when test="param1 != null">
+                    user_name = #{param1}
+                </when>
+                <otherwise>
+                    user_no = #{param2}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into user (
+        <include refid="baseSQL" />
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.userName},
+            #{item.userNo},
+            #{item.userType,jdbcType=TINYINT},
+            #{item.status,jdbcType=TINYINT}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
